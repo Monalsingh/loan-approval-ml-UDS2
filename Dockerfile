@@ -15,8 +15,16 @@ RUN pip install \
 COPY . .
 # app.py loan_model.py models/
 
-EXPOSE 8501
-# Document application port
+# Make the startup script executable
+RUN chmod +x start.sh
+
+# Document both application ports
+EXPOSE 8501 8000
 
 # Start Streamlit (Must be on a single line)
-CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+# CMD ["streamlit", "run", "app.py", "--server.address=0.0.0.0", "--server.port=8501"]
+
+# Start both applications using the shell script
+CMD ["./start.sh"]
+
+# you cannot use CMD twice in a Dockerfile. Docker only executes the very last CMD instruction. If you put two CMD lines, the first one is completely ignored.
